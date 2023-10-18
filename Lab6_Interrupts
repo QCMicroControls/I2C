@@ -1,0 +1,149 @@
+/**************************************************************************************************
+Nom du fichier : main.c
+Auteur : Stéphane Deschênes
+Date de création : 10 oct 2019
+
+	Ce programme est fourni avec le laboratoire #7 du cours 247-336.
+
+Versions
+0.1 - Premiere version
+
+***************************************************************************************************/
+
+// *************************************************************************************************
+//  INCLUDES
+// *************************************************************************************************	
+
+#include "ds89c450.h"				// Définition des bits et des registres du microcontrôleur
+#include <stdio.h>          // Prototype de declarations des fonctions I/O	
+#include <string.h>
+
+
+// *************************************************************************************************
+//  CONSTANTES
+// *************************************************************************************************
+#define VERSION_MAJEUR  		0
+#define VERSION_MINEUR  		1
+#define INTERRUPTENABLE 		EA
+#define	TRUE								1
+#define FALSE								0
+#define LED 								P3_5
+
+// *************************************************************************************************
+//  FONCTIONS LOCALES
+// *************************************************************************************************
+/*
+void AffichageDeBaseLCD(void);
+void MiseAJourLCD(void);
+*/
+void vInitExternalInterruptP32(void);
+void vInitTimer0Interrupt(void);
+
+
+
+// *************************************************************************************************
+//  STRUCTURES ET UNIONS
+// *************************************************************************************************
+/* VIDE */
+
+// *************************************************************************************************
+// VARIABLES GLOBALES
+// *************************************************************************************************
+
+// *************************************************************************************************
+// VARIABLES LOCALES
+// *************************************************************************************************
+unsigned char ucCompteurPassageTimer0 =0;
+unsigned char ucCompteurAppuieExt0 = 0;
+
+
+//Tableau d'affichage
+unsigned char xdata ucLCDComplet[4][21] = {
+	{"Laboratoire #7  V0.1"},
+	{"Cours 247-336       "},																						
+	{"Nombre appuie P3_2: "},	
+	{"          xx        "}
+};
+					
+void main (void){
+	vInitExternalInterruptP32(); 	//initialisation interruption externe
+	vInitTimer0Interrupt();				//initialisation interruption par timer 
+	INTERRUPTENABLE = TRUE;				//Interruption authorisée pour ds89c450
+
+	while (1){		
+		
+	
+	}
+}
+
+//fonction d'initialisation des interrupts
+void vInitExternalInterruptP32(void){
+	IE0 = 0; 
+	EX0 = 1;
+	IT0 = 1;
+}
+//fonction d'initialisation d'un timer avec interruption
+void vInitTimer0Interrupt(void){
+	TR0 = 0;
+	TMOD = TMOD & 0XF0;
+	TMOD = TMOD | 0X01;
+	TL0 = 0XDC;
+	TH0 = 0X00;
+	TF0 = 0;
+	TR0 = 1;
+	ET0 = 1; 
+}
+
+//fonction de compteur a l'appui d'un bouton par interruption 
+void vExternalInterruptP32(void)interrupt 0 {
+	ucCompteurAppuieExt0++;
+	if (ucCompteurAppuieExt0 > 99){
+		ucCompteurAppuieExt0 = 0;
+	}
+}
+//fonction de clignotement d'une P3_5 par interruption
+void vTimer0Interrupt(void) interrupt 1 {
+	unsigned char ucFlash;
+	
+	ucCompteurPassageTimer0++;
+	TR0 = 0; 
+	TF0 = 0;
+	TL0 = 0XDC;
+	TH0 = 0X00;
+	
+	if(ucCompteurPassageTimer0 >= 5){
+		ucFlash = LED;
+		ucFlash =!ucFlash;
+		LED = ucFlash;
+		ucCompteurPassageTimer0 = 0;
+	}
+	TR0 = 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
