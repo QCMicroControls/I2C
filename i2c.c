@@ -20,12 +20,28 @@
 //  Fonctions
 //************************************************************************
 
+
+
+
+
 void vI2CDelai(unsigned char ucTemps) {
   while (ucTemps > 0) {
     i--;
   }
 }
 
+
+
+
+// *************************************************************************************************
+//  Auteur: St�phane Desch�nes, bas� sur des fonctions faites par Alain Champagne le 30 mai 2007
+//  Date de cr�ation :  28 mai 2021
+//
+//  Description: provoque un "start-condition" I2C sur les lignes SDA et SCL
+//  Param�tres d'entr�es : Aucun
+//  Param�tres de sortie : Aucun
+//  Notes     		 	 : Aucune
+//
 void vI2CStartBit(void) {
   SDA = 1;
   vI2CDelai(5);
@@ -36,6 +52,15 @@ void vI2CStartBit(void) {
   SDA = 0;
 }
 
+// *************************************************************************************************
+//  Auteur: St�phane Desch�nes, bas� sur des fonctions faites par Alain Champagne le 30 mai 2007
+//  Date de cr�ation :  28 mai 2021
+//
+//  Description: provoque un "stop-condition" I2C sur les lignes SDA et SCL
+//  Param�tres d'entr�es : Aucun
+//  Param�tres de sortie : Aucun
+//  Notes     		 : Aucune
+//
 void vI2CStopBit(void) {
   SDA = 0;
   vI2CDelai(5);
@@ -46,7 +71,7 @@ void vI2CStopBit(void) {
   SDA = 1;
 }
 
-void vI2CWriteBit(bit bBit) {
+void vI2CEcrire1Bit(bit bBit) {
   SCL = 0;
   vI2CDelai(5);
   SDA = bBit;
@@ -58,7 +83,7 @@ void vI2CWriteBit(bit bBit) {
   SDA = 0;
 }
 
-bit bI2CReadBit() {
+bit bI2CLire1Bit() {
   bit bRXLineRead;
   SDA = 1;
   vI2CDelai(5);
@@ -81,6 +106,8 @@ void vI2CWriteOct(char cTXData) {
   }
   bI2CReadBit();
 }
+
+
 
 char cI2CReadOct(int bAck) {
   unsigned char ucRXFetch = 0;
