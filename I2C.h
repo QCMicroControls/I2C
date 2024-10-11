@@ -24,7 +24,7 @@
 void vI2CStartBit(void);
 void vI2CStopBit(void);
 unsigned char ucI2CLire8Bits (bit bAckValue);
-void vI2CEcrire8Bits(unsigned char ucTxData);
+bit vI2CEcrire8Bits(unsigned char ucTxData);
 
 
 #endif 
