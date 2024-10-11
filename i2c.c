@@ -79,14 +79,13 @@ void vI2CEcrire1Bit(bit bBit)
 //
 //  Auteur: Charles-Olivier 
 //  Date de création :  06 septembre 2023
-//  Version 1.0
+//  Version 2.0
 //
 //  Description: Envoie un bit de data 1 ou 0 sur les lignes i2c
-//  Paramètres d'entrées : Aucun
-//  Paramètres de sortie : Paramètre de Sortie
+//  Paramètres d'entrées : Valeur du bit à envoyer
+//  Paramètres de sortie : AUcun
 //  Notes     		       : 	Passage de 0 à 1 sur la ligne SDA durant un niveau haut de SCL
 // *************************************************************************************************
-
 {
   SCL = 0;
   vI2CDelai(5);
@@ -99,7 +98,18 @@ void vI2CEcrire1Bit(bit bBit)
   SDA = 0;
 }
 
-bit bI2CLire1Bit() {
+bit bI2CLire1Bit()
+//
+//  Auteur: Charles-Olivier 
+//  Date de création :  06 septembre 2023
+//  Version 2.0
+//
+//  Description: Reçois un bit de data 1 ou 0 sur les lignes i2c
+//  Paramètres d'entrées : Aucun
+//  Paramètres de sortie : Valeur du bit sur la ligne SDA
+//  Notes     		       : 	Passage de 0 à 1 sur la ligne SDA durant un niveau haut de SCL
+// *************************************************************************************************
+{
   bit bRXLineRead;
   SDA = 1;
   vI2CDelai(5);
@@ -113,22 +123,43 @@ bit bI2CLire1Bit() {
   return bRXLineRead;
 }
 
-void vI2CEcrire8Bits(char cTXData) {
+bit vI2CEcrire8Bits(char cTXData) 
+
+//
+//  Auteur: Charles-Olivier 
+//  Date de création :  06 septembre 2023
+//  Version 2.0
+//
+//  Description: Reçois un octet Par comm I2C
+//  Paramètres d'entrées : Octet à envoyer au slave par communication
+//  Paramètres de sortie : Bit acknowledge retourné par le slave
+// *************************************************************************************************
+{
 
   unsigned char i;
   for (i = 0; i < 8; i++) {
     vI2CWriteBit(cTXData & 0x80);
     cTXData << 1;
   }
-  bI2CReadBit();
+  return bI2CReadBit();
+
 }
 
 
 
-char ucI2CLire8Bits(bit bAck) {
+char ucI2CLire8Bits(bit bAck)
+//
+//  Auteur: Charles-Olivier 
+//  Date de création :  06 septembre 2023
+//  Version 2.0
+//
+//  Description: Reçois un octet Par comm I2C
+//  Paramètres d'entrées : Aucun
+//  Paramètres de sortie : Un octet de données reçu sur la ligne SDA
+// *************************************************************************************************
+{
   unsigned char ucRXFetch = 0;
   unsigned char i;
-
   for (i = 0; i < 8; i++) {
     ucRXFetch = ucRXFetch + bI2CReadBit();
     ucRXFetch << 1;
