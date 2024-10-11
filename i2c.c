@@ -83,7 +83,7 @@ void vI2CEcrire1Bit(bit bBit)
 //
 //  Description: Envoie un bit de data 1 ou 0 sur les lignes i2c
 //  Paramètres d'entrées : Aucun
-//  Paramètres de sortie : Aucun
+//  Paramètres de sortie : Paramètre de Sortie
 //  Notes     		       : 	Passage de 0 à 1 sur la ligne SDA durant un niveau haut de SCL
 // *************************************************************************************************
 
