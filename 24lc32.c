@@ -1,5 +1,5 @@
 //************************************************************************
-//  Fichier:
+//  Fichier: 24LC32.c
 //  Auteur: Charles-Olivier Lemelin
 //  Date de creation
 //  Version 2.x
@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "I2C_DS89C450.h"
+#include "24lc32.h"
 
 #include "Dallas.h"
 #include "ds89c450.h"
