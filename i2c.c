@@ -130,7 +130,7 @@ bit vI2CEcrire8Bits(char cTXData)
 //  Date de création :  06 septembre 2023
 //  Version 2.0
 //
-//  Description: Reçois un octet Par comm I2C
+//  Description: envoie un octet Par comm I2C
 //  Paramètres d'entrées : Octet à envoyer au slave par communication
 //  Paramètres de sortie : Bit acknowledge retourné par le slave
 // *************************************************************************************************
