@@ -11,26 +11,30 @@
 
 #include <stdio.h>
 
-#include "I2C_DS89C450.h"
+#include "I2C.h"
 
 #include "Dallas.h"
 #include "ds89c450.h"
 
+
+
+// *************************************************************************************************
+//  FONCTIONS LOCALES
+// *************************************************************************************************
+
+void vI2CDelai (unsigned int iTemps);
+void vI2CEcrire1Bit(bit bBit);
+bit blI2CLire1Bit();
+
 //************************************************************************
 //  Fonctions
 //************************************************************************
-
-
-
-
 
 void vI2CDelai(unsigned char ucTemps) {
   while (ucTemps > 0) {
     i--;
   }
 }
-
-
 
 
 // *************************************************************************************************
@@ -71,7 +75,19 @@ void vI2CStopBit(void) {
   SDA = 1;
 }
 
-void vI2CEcrire1Bit(bit bBit) {
+void vI2CEcrire1Bit(bit bBit)
+//
+//  Auteur: Charles-Olivier 
+//  Date de création :  06 septembre 2023
+//  Version 1.0
+//
+//  Description: Envoie un bit de data 1 ou 0 sur les lignes i2c
+//  Paramètres d'entrées : Aucun
+//  Paramètres de sortie : Aucun
+//  Notes     		       : 	Passage de 0 à 1 sur la ligne SDA durant un niveau haut de SCL
+// *************************************************************************************************
+
+{
   SCL = 0;
   vI2CDelai(5);
   SDA = bBit;
@@ -97,7 +113,7 @@ bit bI2CLire1Bit() {
   return bRXLineRead;
 }
 
-void vI2CWriteOct(char cTXData) {
+void vI2CEcrire8Bits(char cTXData) {
 
   unsigned char i;
   for (i = 0; i < 8; i++) {
@@ -109,7 +125,7 @@ void vI2CWriteOct(char cTXData) {
 
 
 
-char cI2CReadOct(int bAck) {
+char ucI2CLire8Bits(bit bAck) {
   unsigned char ucRXFetch = 0;
   unsigned char i;
 
